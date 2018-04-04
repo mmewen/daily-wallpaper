@@ -1,0 +1,10 @@
+{
+    "description": "", 
+    "max-instances": "1", 
+    "dangerous": false,
+    "description": "Grab a beautiful picture every day",
+    "uuid": "daily-wallpaper@mmewen",
+    "name": "Daily Wallpaper", 
+    "directory": "~/.daily-wallpaper", 
+    "icon": "wallpaper"
+}

@@ -1,0 +1,62 @@
+{
+    "layout" : {
+        "type" : "layout",
+        "pages" : ["panel"],
+        "panel" : {
+            "type" : "page",
+            "title" : "Daily wallpaper settings",
+            "sections" : ["general-section", "bing-section", "unsplash-section"]
+        },
+        "general-section": {
+            "type": "section",
+            "title": "General",
+            "keys": ["source"]
+        },
+        "bing-section": {
+            "type": "section",
+            "title": "Bing configuration",
+            "keys": ["locale"]
+        },
+        "unsplash-section": {
+            "type": "section",
+            "title": "Unsplash configuration",
+            "keys": ["unsplashKey", "period"]
+        }
+    },
+    "source": {
+        "type" : "radiogroup",
+        "default" : "bing",
+        "description" : "Download source",
+        "options" : {
+            "Bing" : "bing",
+            "Unsplash" : "unsplash",
+            "Disable" : "disable"
+        }
+    },
+    "locale": {
+        "type" : "radiogroup",
+        "default" : "fr-FR",
+        "description" : "Region",
+        "options" : {
+            "France" : "fr-FR",
+            "USA" : "en-US",
+            "UK" : "en-UK",
+            "Germany" : "ge-GE"
+        }
+    },
+    "unsplashKey": {
+        "type" : "entry",
+        "default" : "",
+        "description" : "Unsplash API key"
+    },
+    "period": {
+        "type" : "radiogroup",
+        "default" : "day",
+        "description" : "Refresh wallpaper every...",
+        "options" : {
+            "day" : "day",
+            "hour" : "hour",
+            "minute" : "minute"
+        }
+    }
+}
