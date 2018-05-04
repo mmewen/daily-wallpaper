@@ -132,10 +132,10 @@ MyApplet.prototype = {
         var message = Soup.Message.new('GET', url);
         session.queue_message(message, function(session, response) {
             if (response.status_code !== Soup.KnownStatusCode.OK) {
-               global.log("Error during download: response code " + response.status_code
-                  + ": " + response.reason_phrase + " - " + response.response_body.data);
-               callback(false, null);
-               return true;
+                global.log("Error during download: response code " + response.status_code
+                    + ": " + response.reason_phrase + " - " + response.response_body.data);
+                callback(false, null);
+                return true;
             }
 
             try {
@@ -164,6 +164,7 @@ MyApplet.prototype = {
             if (bingJson["images"] === undefined || bingJson["images"].length == 0) {
                 global.logError("Bing JSON doesn't have the expected structure");
                 this.updateInProgress = false;
+                this.retry_soon();
                 return true;
             }
 
@@ -208,10 +209,8 @@ MyApplet.prototype = {
         else {
             global.logError("Bing JSON can't be downloaded, we'll retry in a minute");
 
-            // Set retry timeout
-            this._set_next_update_at(MINUTE);
-
             this.updateInProgress = false;
+            this.retry_soon();
         }
         return true;
     },
@@ -260,10 +259,8 @@ MyApplet.prototype = {
         else {
             global.log("Unsplash JSON can't be downloaded, we'll retry in a minute");
 
-            // Set retry timeout
-            this._set_next_update_at(MINUTE);
-
             this.updateInProgress = false;
+            this.retry_soon();
         }
         return true;
     },
@@ -293,7 +290,7 @@ MyApplet.prototype = {
             global.log("Image can't be downloaded, we'll retry in a minute");
 
             // Set retry timeout
-            this._set_next_update_at(MINUTE);
+            this.retry_soon();
         }
 
         // Release lock
@@ -314,6 +311,16 @@ MyApplet.prototype = {
         else if (this.source === UNSPLASH) {
             this._set_next_update_at(this.period);
         }
+    },
+
+    retry_soon: function() {
+        // Invalidate existing timeout , if any
+        if (this._timeout !== undefined)
+        {
+            this._clearTimeout(this._timeout);
+        }
+
+        this._set_next_update_at(MINUTE);
     },
 
     _set_next_update_at: function(nextTime) {
